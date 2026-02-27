@@ -35,3 +35,19 @@ jobs:
           AWS_REGION: ${{ secrets.AWS_REGION }}
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
         run: node index.js
+
+      - name: Open GitHub Issue on violation
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            if (!fs.existsSync('scraper/violation-report.md')) return;
+            const body = fs.readFileSync('scraper/violation-report.md', 'utf8');
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `⚠️ HN Sort Violation — ${new Date().toUTCString()}`,
+              body,
+              labels: ['violation', 'automated']
+            });
