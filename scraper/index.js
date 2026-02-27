@@ -57,12 +57,7 @@ ${violationRows}
   const runId = await saveRun(articles, results, duration, screenshotUrl);
   console.log(`\nRun ID: ${runId}`);
 
-  // TEMP: force violation for checkpoint 8 testing — revert after
-  if (!screenshotUrl) {
-    const report = `## HN Sort Violation Detected\n\n**Time:** ${new Date().toUTCString()}\n**Articles checked:** ${results.totalArticles}\n**Violations found:** 0 (forced for CI test)\n**Screenshot:** none\n`;
-    fs.writeFileSync('violation-report.md', report);
-  }
-  process.exit(1); // TEMP: force failure
+  process.exit(results.valid ? 0 : 1);
 }
 
 (async () => {
