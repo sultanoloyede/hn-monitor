@@ -1,0 +1,5 @@
+{
+  "/api/days/route": "app/api/days/route.js",
+  "/api/days/[date]/route": "app/api/days/[date]/route.js",
+  "/days/page": "app/days/page.js"
+}
