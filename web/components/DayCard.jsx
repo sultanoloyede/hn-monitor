@@ -4,7 +4,7 @@ import { useState } from "react";
 import ArticlesTable from "./ArticlesTable";
 
 function RunSection({ run }) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const label = new Date(run.created_at).toUTCString();
 
   return (
