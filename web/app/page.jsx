@@ -113,21 +113,22 @@ export default async function Home() {
             style={{
               display: "flex",
               alignItems: "center",
-              gap: 8,
+              gap: 6,
               marginTop: 16,
               fontSize: 11,
               color: "#8b949e",
             }}
           >
-            <span>Less</span>
-            {["#21262d", "#26a641", "#da3633"].map((c, i) => (
-              <div
-                key={i}
-                style={{ width: 11, height: 11, borderRadius: 2, background: c }}
-              />
+            {[
+              { color: "#21262d", label: "No run" },
+              { color: "#26a641", label: "Pass"   },
+              { color: "#da3633", label: "Fail"   },
+            ].map(({ color, label }) => (
+              <div key={label} style={{ display: "flex", alignItems: "center", gap: 4, marginRight: 8 }}>
+                <div style={{ width: 11, height: 11, borderRadius: 2, background: color }} />
+                <span>{label}</span>
+              </div>
             ))}
-            <span>More</span>
-            <span style={{ marginLeft: 12 }}>■ No data &nbsp; ■ Pass &nbsp; ■ Fail</span>
           </div>
         </div>
       </section>
