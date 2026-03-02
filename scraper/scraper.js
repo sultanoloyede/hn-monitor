@@ -5,19 +5,22 @@ async function scrapeHackerNews(page, target = 100, onProgress) {
   while (articles.length < target) {
     await page.goto(url, { waitUntil: 'domcontentloaded' });
 
-    const pageArticles = await page.$$eval('.athing', (rows) =>
+    const articleLocator = page.locator('tr.athing');
+    await articleLocator.first().waitFor();
+
+    const pageArticles = await articleLocator.evaluateAll((rows) =>
       rows.map((row) => {
-        const rankEl = row.querySelector('.rank');
-        const titleEl = row.querySelector('.titleline > a');
-        const ageEl = row.querySelector('.age');
-        const ageAnchor = row.querySelector('.age a');
+        const rankEl    = row.querySelector('.rank');
+        const titleEl   = row.querySelector('.titleline > a');
+        const ageEl     = row.nextElementSibling?.querySelector('.age');
+        const ageAnchor = row.nextElementSibling?.querySelector('.age a');
 
         return {
-          rank: rankEl ? parseInt(rankEl.textContent.replace('.', ''), 10) : null,
-          id: row.id || null,
-          title: titleEl ? titleEl.textContent.trim() : null,
-          url: titleEl ? titleEl.href : null,
-          timestamp: ageEl ? ageEl.getAttribute('title') : null,
+          rank:        rankEl ? parseInt(rankEl.textContent.replace('.', ''), 10) : null,
+          id:          row.id || null,
+          title:       titleEl ? titleEl.textContent.trim() : null,
+          url:         titleEl ? titleEl.href : null,
+          timestamp:   ageEl ? ageEl.getAttribute('title') : null,
           relativeAge: ageAnchor ? ageAnchor.textContent.trim() : null,
         };
       })
@@ -30,9 +33,10 @@ async function scrapeHackerNews(page, target = 100, onProgress) {
     }
 
     if (articles.length < target) {
-      const moreHref = await page.$eval('a.morelink', (el) => el.href).catch(() => null);
-      if (!moreHref) break;
-      url = moreHref;
+      const moreLink = page.locator('a.morelink');
+      if (!await moreLink.count()) break;
+      await moreLink.waitFor();
+      url = await moreLink.getAttribute('href') ?? url;
     }
   }
 
