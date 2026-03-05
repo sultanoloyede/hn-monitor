@@ -36,7 +36,10 @@ async function scrapeHackerNews(page, target = 100, onProgress) {
       const moreLink = page.locator('a.morelink');
       if (!await moreLink.count()) break;
       await moreLink.waitFor();
-      url = await moreLink.getAttribute('href') ?? url;
+      const href = await moreLink.getAttribute('href') ?? null;
+      if (href) {
+        url = href.startsWith('http') ? href : `https://news.ycombinator.com/${href}`;
+      }
     }
   }
 
