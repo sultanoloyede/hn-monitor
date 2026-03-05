@@ -27,7 +27,7 @@ async function getGrid(year) {
     GROUP BY day
     ORDER BY day
     `,
-    [year]
+    [year],
   );
   return rows.map((r) => ({
     day: r.day.toISOString().slice(0, 10),
@@ -65,7 +65,7 @@ export default async function Home() {
             HN Sort Monitor
           </h1>
           <p style={{ margin: "4px 0 0", fontSize: 13, color: "#8b949e" }}>
-            Hacker News /newest — sort order validated every 30 min
+            Hacker News /newest — sort order validated every hour
           </p>
         </div>
         <Link
@@ -121,11 +121,26 @@ export default async function Home() {
           >
             {[
               { color: "#21262d", label: "No run" },
-              { color: "#26a641", label: "Pass"   },
-              { color: "#da3633", label: "Fail"   },
+              { color: "#26a641", label: "Pass" },
+              { color: "#da3633", label: "Fail" },
             ].map(({ color, label }) => (
-              <div key={label} style={{ display: "flex", alignItems: "center", gap: 4, marginRight: 8 }}>
-                <div style={{ width: 11, height: 11, borderRadius: 2, background: color }} />
+              <div
+                key={label}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 4,
+                  marginRight: 8,
+                }}
+              >
+                <div
+                  style={{
+                    width: 11,
+                    height: 11,
+                    borderRadius: 2,
+                    background: color,
+                  }}
+                />
                 <span>{label}</span>
               </div>
             ))}
