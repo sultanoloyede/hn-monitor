@@ -3,6 +3,8 @@ import pool from "@/lib/db";
 import StatCards from "@/components/StatCards";
 import ContributionGrid from "@/components/ContributionGrid";
 
+export const dynamic = "force-dynamic";
+
 async function getStats() {
   const { rows } = await pool.query(`
     SELECT
