@@ -2,7 +2,7 @@ name: Validate HN Sort Order
 
 on:
   schedule:
-    - cron: "0 * * * *"
+    - cron: "0 */4 * * *"
   workflow_dispatch:
 
 jobs:
