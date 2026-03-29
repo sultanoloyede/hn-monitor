@@ -67,7 +67,7 @@ export default async function Home() {
             HN Sort Monitor
           </h1>
           <p style={{ margin: "4px 0 0", fontSize: 13, color: "#8b949e" }}>
-            Hacker News /newest — sort order validated every hour
+            Hacker News /newest — sort order validated every 4 hours
           </p>
         </div>
         <Link
